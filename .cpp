@@ -211,3 +211,55 @@ int main() {
 Отсортированный массив:
 11 12 22 25 34 64 90 
 
+
+ ИНТЕРПОЛИРУЮЩИЙ ПОИСК   
+    #include <iostream>
+using namespace std;
+
+// Функция для осуществления интерполирующего поиска
+int interpolationSearch(int arr[], int n, int target) {
+    int low = 0;                         // Нижний индекс
+    int high = n - 1;                    // Верхний индекс
+
+    // Пока нижний индекс меньше верхнего и значение в нижнем индексе меньше цели
+    while ((low <= high) && (target >= arr[low]) && (target <= arr[high])) {
+        // Расчет приблизительного положения искомого элемента
+        int pos = low + (((double)(high - low) /
+                         (arr[high] - arr[low])) *
+                        (target - arr[low]));
+
+        // Если элемент найден, возвращаем его индекс
+        if (arr[pos] == target)
+            return pos;
+
+        // Если элемент меньше, переходим к нижней части массива
+        if (arr[pos] < target)
+            low = pos + 1;
+        // Если элемент больше, переходим к верхней части массива
+        else
+            high = pos - 1;
+    }
+
+    // Если элемент не найден, возвращаем -1
+    return -1;
+}
+
+// Тестирование функции
+int main() {
+    int arr[] = {10, 12, 13, 16, 18, 19, 20, 21, 22, 23, 24, 33, 35, 42, 47};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int target = 18;
+
+    int index = interpolationSearch(arr, n, target);
+
+    if (index != -1)
+        cout << "Элемент " << target << " найден на позиции " << index << endl;
+    else
+        cout << "Элемент " << target << " не найден." << endl;
+
+    return 0;
+}
+
+ПРИМЕР ВЫВОДА:
+Элемент 18 найден на позиции 4
+
