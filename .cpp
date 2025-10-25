@@ -143,4 +143,71 @@ int main() {
 Отсортированный массив: 11 12 22 25 34 64 90 
 
 
+ПИРАМИДАЛЬНАЯ СОРТИРОВКА
+    #include <iostream>
+using namespace std;
+
+// Процедура построения двоичной кучи сверху вниз
+void heapify(int arr[], int n, int root) {
+    int largest = root;                        // Предполагаемый корень
+    int left_child = 2 * root + 1;             // Левый дочерний узел
+    int right_child = 2 * root + 2;            // Правый дочерний узел
+
+    // Если левый дочерний узел существует и больше корня
+    if (left_child < n && arr[left_child] > arr[largest])
+        largest = left_child;
+
+    // Если правый дочерний узел существует и больше самого крупного узла
+    if (right_child < n && arr[right_child] > arr[largest])
+        largest = right_child;
+
+    // Если нужен обмен корней
+    if (largest != root) {
+        swap(arr[root], arr[largest]);          // Меняем корневой элемент с самым крупным узлом
+        heapify(arr, n, largest);               // Рекурсивно строим кучу снизу вверх
+    }
+}
+
+// Основная функция сортировки
+void heapSort(int arr[], int n) {
+    // Строим max-кучу из массива
+    for (int i = n / 2 - 1; i >= 0; --i)
+        heapify(arr, n, i);
+
+    // Один за другим извлекаем элементы из кучи
+    for (int i = n - 1; i > 0; --i) {
+        swap(arr[0], arr[i]);                  // Корень (наибольший элемент) меняется с последним элементом
+        heapify(arr, i, 0);                    // Восстанавливаем кучу из оставшейся части
+    }
+}
+
+// Вспомогательная функция для вывода массива
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; ++i)
+        cout << arr[i] << " ";
+    cout << "\n";
+}
+
+// Точка входа в программу
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    cout << "Исходный массив:\n";
+    printArray(arr, n);
+
+    heapSort(arr, n);                           // Сортировка массива
+
+    cout << "Отсортированный массив:\n";
+    printArray(arr, n);
+
+    return 0;
+}
+
+
+ПРИМЕР ВЫВОДА:
+Исходный массив:
+64 34 25 12 22 11 90 
+Отсортированный массив:
+11 12 22 25 34 64 90 
 
