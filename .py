@@ -192,3 +192,63 @@ else:
 ПРИМЕР ВЫВОДА :
 Элемент 50 найден на позиции 4
 
+ПОИСК ПО ФИБОНАЧЧИ
+def fibonacci_search(arr, target):
+    """
+    Реализация поиска по Фибоначчи.
+    :param arr: Отсортированный массив, в котором производится поиск.
+    :param target: Целевой элемент для поиска.
+    :return: Индекс элемента, если найден, или -1, если элемент не найден.
+    """
+    # Генерируем последовательность чисел Фибоначчи, пока последнее число меньше длины массива
+    fib_M_minus_2 = 0  # F(i-2)
+    fib_M_minus_1 = 1  # F(i-1)
+    fib_M = fib_M_minus_1 + fib_M_minus_2  # F(i)
+    while fib_M < len(arr):
+        fib_M_minus_2 = fib_M_minus_1
+        fib_M_minus_1 = fib_M
+        fib_M = fib_M_minus_1 + fib_M_minus_2
+
+    offset = -1  # Смещаем начало поиска, если необходима коррекция
+
+    # Пока диапазон поиска больше 0
+    while fib_M > 1:
+        # Выбираем минимальное значение между смещённым индексом и размером массива
+        i = min(offset + fib_M_minus_2, len(arr)-1)
+
+        # Если элемент больше, ищем в правой части
+        if arr[i] < target:
+            fib_M = fib_M_minus_1
+            fib_M_minus_1 = fib_M_minus_2
+            fib_M_minus_2 = fib_M - fib_M_minus_1
+            offset = i
+
+        # Если элемент меньше, ищем в левой части
+        elif arr[i] > target:
+            fib_M = fib_M_minus_2
+            fib_M_minus_1 = fib_M_minus_1 - fib_M_minus_2
+            fib_M_minus_2 = fib_M - fib_M_minus_1
+
+        # Если элемент найден, возвращаем его индекс
+        else:
+            return i
+
+    # Дополнительная проверка на граничных условиях
+    if fib_M_minus_1 and arr[offset+1] == target:
+        return offset + 1
+
+    # Если элемент не найден, возвращаем -1
+    return -1
+
+# Пример использования
+arr = [10, 22, 35, 40, 45, 50, 80, 82, 85, 90, 100]
+target = 85
+result = fibonacci_search(arr, target)
+
+if result != -1:
+    print(f"Элемент {target} найден на позиции {result}.")
+else:
+    print(f"Элемент {target} не найден в массиве.")
+
+ПРИМЕР ВЫВОДА:
+Элемент 85 найден на позиции 8.
