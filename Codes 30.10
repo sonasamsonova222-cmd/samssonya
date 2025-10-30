@@ -229,3 +229,42 @@ else:
     print('Элемент не найден')
 
 Элемент 55 найден на индексе 10
+
+
+   Тернарный поиск
+def ternary_search(f, l, r, tol=1e-6):
+    """
+    Алгоритм тернарного поиска экстремумов функции f(x) на отрезке [l, r].
+    Параметр tol контролирует точность поиска.
+    """
+    while abs(r - l) > tol:
+        # Деление интервала на три части
+        left_third = l + (r - l) / 3
+        right_third = r - (r - l) / 3
+        
+        # Сравниваем значения функции в двух средних точках
+        if f(left_third) < f(right_third):
+            # Минимум лежит справа от левой трети
+            l = left_third
+        else:
+            # Минимум лежит слева от правой трети
+            r = right_third
+    
+    # Возврат средней точки интервала как аппроксимацию экстремума
+    return (l + r) / 2
+
+# Пример функции (квадратичная функция с минимумом)
+def quadratic_function(x):
+    return x*x - 6*x + 5
+
+# Диапазон поиска
+interval_left = 0
+interval_right = 5
+
+# Поиск минимума функции
+minimum_point = ternary_search(quadratic_function, interval_left, interval_right)
+print(f"Точка минимума: {minimum_point:.4f}")
+print(f"Минимальное значение функции: {quadratic_function(minimum_point):.4f}")
+
+Точка минимума: 0.0000
+Минимальное значение функции: 5.0000
