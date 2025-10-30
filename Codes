@@ -1,0 +1,231 @@
+алгоритма блочной (корзинной) сортировки
+
+def bucket_sort(arr):
+    # Проверяем, пуст ли исходный массив
+    if len(arr) == 0:
+        return arr
+
+    # Определяем минимальное и максимальное значения массива,
+    # чтобы вычислить диапазон распределения элементов по корзинам
+    min_val = min(arr)
+    max_val = max(arr)
+    
+    # Создаем корзины, каждая корзина представляет собой отдельный список
+    num_buckets = len(arr)  # Количество корзин равно количеству элементов
+    buckets = [[] for _ in range(num_buckets)]
+
+    # Рассчитываем размер шага для распределения элементов по корзинам
+    step = (max_val - min_val + 1) / float(len(buckets))
+
+    # Распределение элементов по корзинам
+    for value in arr:
+        index = int((value - min_val) // step)
+        
+        # Если индекс выходит за пределы последнего элемента, используем последний индекс
+        if index >= len(buckets):
+            index = len(buckets) - 1
+            
+        # Добавляем элемент в соответствующую корзину
+        buckets[index].append(value)
+
+    # Сортируем элементы внутри каждой корзины (используем встроенную сортировку Python)
+    sorted_arr = []
+    for bucket in buckets:
+        sorted_bucket = sorted(bucket)
+        sorted_arr.extend(sorted_bucket)
+
+    return sorted_arr
+
+
+# Пример использования
+if __name__ == "__main__":
+    array_to_sort = [0.897, 0.565, 0.656, 0.1234, 0.665, 0.3434]
+    print("Исходный массив:", array_to_sort)
+    sorted_array = bucket_sort(array_to_sort)
+    print("Отсортированный массив:", sorted_array)
+
+Исходный массив: [0.897, 0.5649999999999999, 0.656, 0.1234, 0.665, 0.3434]
+Отсортированный массив: [0.1234, 0.3434, 0.5649999999999999, 0.656, 0.665, 0.897]
+
+
+Блинная сортировка:
+def flip(arr, i):
+    """Перевернуть первые i+1 элементов массива"""
+    start = 0
+    while start < i:
+        arr[start], arr[i] = arr[i], arr[start]
+        start += 1
+        i -= 1
+
+def find_max(arr, n):
+    """Найти индекс самого большого элемента в первой n позициях массива"""
+    mi = 0
+    for i in range(1, n):
+        if arr[i] > arr[mi]:
+            mi = i
+    return mi
+
+def pancake_sort(arr):
+    """
+    Основной алгоритм блинной сортировки
+    """
+    curr_size = len(arr)
+    while curr_size > 1:
+        # Найдем самый большой элемент в оставшейся части массива
+        mi = find_max(arr, curr_size)
+        
+        # Перевернем верхний слой до этого индекса, чтобы максимальный элемент оказался первым
+        if mi != curr_size - 1:
+            flip(arr, mi)
+            
+            # Теперь перевернём всю верхнюю часть массива, чтобы максимальный элемент переместился в конец
+            flip(arr, curr_size - 1)
+        
+        # Уменьшаем размер обрабатываемого массива
+        curr_size -= 1
+
+# Тестирование
+arr = [3, 6, 2, 4, 5, 1]
+print("Исходный массив:", arr)
+pancake_sort(arr)
+print("Отсортированный массив:", arr)
+
+Исходный массив: [3, 6, 2, 4, 5, 1]
+Отсортированный массив: [1, 2, 3, 4, 5, 6]
+
+
+Сортировка бусинами
+
+def bead_sort(arr):
+    """
+    Сортировка бусинами (bead sort)
+    :param arr: Входной массив положительных целых чисел
+    :return: Отсортированный массив
+    """
+    # Копия входного массива
+    beads = [[True]*val + [False]*(max(arr)-val) for val in arr]
+    
+    # Транспонируем матрицу
+    transposed_beads = list(map(list, zip(*beads)))
+    
+    # Выполняем падение бусин
+    for row in transposed_beads:
+        row.sort(reverse=True)
+    
+    # Обратное транспонирование и восстановление чисел
+    result = [sum(row) for row in map(list, zip(*transposed_beads))]
+    return result
+
+# Тестирование
+input_list = [5, 3, 1, 7, 4, 2]
+print("Исходный массив:", input_list)
+output_list = bead_sort(input_list)
+print("Отсортированный массив:", output_list)
+
+Исходный массив: [5, 3, 1, 7, 4, 2]
+Отсортированный массив: [7, 5, 4, 3, 2, 1]
+
+
+Поиск скачками
+
+import math
+
+def jump_search(arr, x):
+    """
+    Алгоритм поиска скачками.
+    :param arr: Упорядоченный массив
+    :param x: Целевой элемент для поиска
+    :return: Индекс элемента или -1, если элемент не найден
+    """
+    n = len(arr)
+    block_size = int(math.sqrt(n))  # определяем оптимальный размер блока (длину прыжка)
+    
+    prev = 0
+    next_block = block_size
+    
+    # Ищем подходящий блок, делая прыжки
+    while next_block < n and arr[next_block] <= x:
+        prev = next_block
+        next_block += block_size
+    
+    # Применяем бинарный поиск в выбранном блоке
+    left = prev
+    right = min(next_block, n)
+    
+    # Классический бинарный поиск
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == x:
+            return mid
+        elif arr[mid] < x:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return -1  # Элемент не найден
+
+# Тестирование
+arr = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144]
+target = 55
+result = jump_search(arr, target)
+
+if result != -1:
+    print(f'Элемент {target} найден на индексе {result}')
+else:
+    print('Элемент не найден')
+
+Элемент 55 найден на индексе 10
+
+
+
+Экспоненциальный поиск
+
+def exponential_search(arr, x):
+    """
+    Алгоритм экспоненциального поиска.
+    :param arr: Упорядоченный массив
+    :param x: Цель поиска
+    :return: Индекс элемента или -1, если элемент не найден
+    """
+    n = len(arr)
+    
+    # Если массив пустой или первый элемент больше искомого, сразу возврат
+    if n == 0 or arr[0] > x:
+        return -1
+    
+    # Начальная проверка первого элемента
+    if arr[0] == x:
+        return 0
+    
+    # Экспоненциальный рост индекса
+    i = 1
+    while i < n and arr[i] <= x:
+        i *= 2
+    
+    # Bounded binary search в найденном диапазоне
+    low = i // 2
+    high = min(i, n - 1)
+    
+    # Обычная реализация бинарного поиска
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == x:
+            return mid
+        elif arr[mid] < x:
+            low = mid + 1
+        else:
+            high = mid - 1
+    
+    return -1  # Элемент не найден
+
+# Тестирование
+arr = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144]
+target = 55
+result = exponential_search(arr, target)
+
+if result != -1:
+    print(f'Элемент {target} найден на индексе {result}')
+else:
+    print('Элемент не найден')
+
+Элемент 55 найден на индексе 10
