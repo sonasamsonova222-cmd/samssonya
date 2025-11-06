@@ -1,1 +1,22 @@
 
+#include <iostream>
+#include <cmath>  // Для abs()
+
+int sumDigits(int n) {
+    n = std::abs(n);  // Обработка отрицательных чисел
+    if (n == 0) {
+        return 0;
+    } else {
+        return (n % 10) + sumDigits(n / 10);
+    }
+}
+
+int main() {
+    std::cout << sumDigits(678) << std::endl;   // Вывод: 6
+    std::cout << sumDigits(-456) << std::endl;  // Вывод: 15
+    return 0;
+}
+
+Результат выполнения:
+21
+15
