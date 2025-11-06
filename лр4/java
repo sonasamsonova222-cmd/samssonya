@@ -1,1 +1,20 @@
+public class DigitSum {
+    public static int sumDigits(int n) {
+        n = Math.abs(n);  // Обработка отрицательных чисел
+        if (n == 0) {
+            return 0;
+        } else {
+            return (n % 10) + sumDigits(n / 10);
+        }
+    }
 
+    public static void main(String[] args) {
+        System.out.println(sumDigits(123));   // Вывод: 6
+        System.out.println(sumDigits(-456));  // Вывод: 15
+    }
+}
+
+
+Результат выполнения:
+6
+15
