@@ -1,1 +1,15 @@
+def sum_digits(n):
+    n = abs(n)  # Обработка отрицательных чисел
+    if n == 0:
+        return 0
+    else:
+        return (n % 10) + sum_digits(n // 10)
+
+# Пример использования
+print(sum_digits(5648))  
+print(sum_digits(-577)) 
+
+Результат выполнения:
+23
+19
 
