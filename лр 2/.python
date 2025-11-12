@@ -1,36 +1,25 @@
   **МУЛЬТИСПИСОК**
-
 groups = [['Соня', 'Катя'], ['Маша', 'Даша'], ['Света', 'Оля']]
 
   **ОЧЕРЕДЬ**
   
 from queue import Queue
-
 q = Queue()
-
 q.put(10) 
-
 q.put(20) 
-
 q.put(30)
 
   **ДЕК**
   
 from collections import deque
-
 tasks = deque() 
-
 tasks.append("хорошо")
-
 tasks.append("отлично")
  
 
   **ПРИОРИТЕТНАЯ ОЧЕРЕДЬ**
   
 from queue import PriorityQueue 
-
 q = PriorityQueue()
-
 q.put((40, 'high-priority item')) 
-
 q.put((50, 'low-priority item')) 
