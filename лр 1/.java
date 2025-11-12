@@ -1,14 +1,14 @@
      Java
-СОЗДАНИЕ СПИСКА:
-import java.util.ArrayList;
-import java.util.List;
+СОЗДАНИЕ МАССИВА:
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        List<String> list = new ArrayList<>(); 
-        list.add("1");                     
-        list.add("2");                     
-        System.out.println(list);               
+        int[] arr = new int[2];   
+        arr[0] = 1;              
+        arr[1] = 2;              
+
+        System.out.println(Arrays.toString(arr)); 
     }
 }
 
