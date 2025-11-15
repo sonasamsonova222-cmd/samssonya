@@ -1,4 +1,4 @@
-    **# Определение дерева**
+   **Определение дерева**
  
 Дерево — это вид графа, характеризующегося отсутствием циклов и наличием единственной связи между всеми парами вершин. Его отличительные особенности:
 
@@ -8,7 +8,7 @@
 Только одна связь ведет к каждой вершине, исключая корень, у которого связей вверх нет.
 Примеры деревьев встречаются повсеместно: организация файлов на диске компьютера, родословные деревья и многие другие иерархические структуры.
 
-     **# Определение графа**
+  **Определение графа**
  
 Граф — это абстрактная структура, состоящая из набора точек (вершин) и линий (рёбер), соединяющих точки. Основные свойства графов:
 
@@ -16,11 +16,12 @@
 Бывают взвешенные (вес на каждом ребре) и невзвешенные графики.
 Примеры графов разнообразны: социальные сети, дорожные карты, электрические цепи и т.п.
 
-     **##  Реализация деревьев и графов на Python, Java и C++**
+   **Реализация деревьев и графов на Python, Java и C++**
  
 Пример дерева на Python
 
-class TreeNode:
+#
+    class TreeNode:
 
     def __init__(self, value):
     
@@ -31,36 +32,40 @@ class TreeNode:
     def add_child(self, child):
         self.children.append(child)
 
- **## Использование**
- 
-root = TreeNode(1)
+   **Использование**
 
-root.add_child(TreeNode(2))
+#
+    root = TreeNode(1)
 
-root.add_child(TreeNode(3))
+    root.add_child(TreeNode(2))
+
+    root.add_child(TreeNode(3))
 
 Анализ:
 Класс TreeNode описывает вершину дерева, сохраняя её значение и список дочерних узлов. Такая простая конструкция легко расширяется новыми методами для поиска, обхода и манипуляций.
 
- **##Пример графа на Java**
+   **Пример графа на Java**
 
-import java.util.ArrayList;
+#
+    import java.util.ArrayList;
 
-import java.util.List;
+    import java.util.List;
 
-class GraphVertex {
-    int id;
-    List<GraphVertex> neighbors;
+    class GraphVertex {
+        int id;
+       List<GraphVertex> neighbors;
 
-    public GraphVertex(int id) {
-        this.id = id;
-        this.neighbors = new ArrayList<>();
-    }
+        public GraphVertex(int id) {
+           this.id = id;
+           this.neighbors = new ArrayList<>();
+       }
 
-    public void addNeighbor(GraphVertex vertex) {
-        neighbors.add(vertex);
-    }
-}
+        public void addNeighbor(GraphVertex vertex) {
+            neighbors.add(vertex);
+       }
+     }
+
+
 
 // Использование
 GraphVertex A = new GraphVertex(1);
@@ -70,59 +75,62 @@ B.addNeighbor(A);
 Анализ:
 Представление графа в виде списка смежности: каждая вершина хранит список соседей. Такой способ удобен для хранения и обновления графов, экономичен по памяти.
 
- **##Пример графа на C++**
+ **Пример графа на C++**
 
-#include <iostream>
-#include <vector>
+#
+    #include <iostream>
+    #include <vector>
 
-using namespace std;
+    using namespace std;
 
-class Vertex {
-public:
-    int id;
-    vector<Vertex*> neighbors;
+    class Vertex {
+       public:
+           int id;
+           vector<Vertex*> neighbors;
 
-    Vertex(int id) : id(id) {}
+        Vertex(int id) : id(id) {}
 
-    void addNeighbor(Vertex* neighbor) {
-        neighbors.push_back(neighbor);
-    }
-};
+        void addNeighbor(Vertex* neighbor) {
+            neighbors.push_back(neighbor);
+        }
+     };
 
 // Использование
-int main() {
-    Vertex A(1), B(2);
-    A.addNeighbor(&B);
-    B.addNeighbor(&A);
-    return 0;
-}
- **##Анализ:**
+#
+    int main() {
+        Vertex A(1), B(2);
+        A.addNeighbor(&B);
+        B.addNeighbor(&A);
+        return 0;
+    }
+
+ **Анализ:**
  
 Аналогично Java, но с использованием указателей на объекты, что улучшает производительность и уменьшает расход памяти.
 
 Пошаговый разбор алгоритма обхода дерева (DFS)
 Рассмотрим простейшую реализацию обхода дерева методом Depth First Search (DFS) на Python.
 
+#
+    def dfs(node):
+        visited = set()
+        stack = [node]
 
-def dfs(node):
-    visited = set()
-    stack = [node]
+        while stack:
+           current = stack.pop()
+           if current not in visited:
+               visited.add(current)
+               print(current.value)
+               stack.extend(reversed(current.children))
 
-    while stack:
-        current = stack.pop()
-        if current not in visited:
-            visited.add(current)
-            print(current.value)
-            stack.extend(reversed(current.children))
-
- **## Пример использования**
+ **Пример использования**
  
 dfs(root) Работа алгоритма:
 Начальная точка — корень дерева.
 Алгоритм собирает вершины в стеке и продолжает обработку, пока стэк не станет пустым.
 Каждая вершина обрабатывается один раз: выводится её значение, а затем добавляются дети в обратном порядке, чтобы обеспечить правильный порядок обхода.
 
- **##Оценка временной сложности:**
+ **Оценка временной сложности:**
  
 Время выполнения алгоритма прямо связано с количеством вершин и рёбер. Так как каждая вершина и каждое ребро рассматриваются ровно один раз, 
 временная сложность алгоритма DFS составляет 
