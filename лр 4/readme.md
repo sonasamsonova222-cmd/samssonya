@@ -34,14 +34,18 @@ class TreeNode:
  **## Использование**
  
 root = TreeNode(1)
+
 root.add_child(TreeNode(2))
+
 root.add_child(TreeNode(3))
+
 Анализ:
 Класс TreeNode описывает вершину дерева, сохраняя её значение и список дочерних узлов. Такая простая конструкция легко расширяется новыми методами для поиска, обхода и манипуляций.
 
  **##Пример графа на Java**
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 class GraphVertex {
