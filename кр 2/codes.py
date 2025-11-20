@@ -1,5 +1,5 @@
 ###10 ВАРИАНТ 
-Колония муравьёв (ACO) для TSP
+##Колония муравьёв (ACO) для TSP
 
 import random
 import numpy as np
